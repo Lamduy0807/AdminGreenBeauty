@@ -15,6 +15,15 @@
 import { NavigationContainer } from '@react-navigation/native';
 import MainBoard from './Pages/mainboard';
 import LoginScreen from './Pages/login';
+import Pending from './Pages/Pending';
+import Waiting from './Pages/Waiting';
+import Delivery from './Pages/Delivery';
+import Success from './Pages/Success';
+import DetailOrder from './Pages/DetailOrder';
+import AllOrder from './Pages/AllOrder';
+import AddProduct from './Pages/AddProduct';
+import ProductManage from './Pages/ProductManage';
+import DetailProduct from './Pages/DetailProduct';
 const Stack = createNativeStackNavigator();
 const App = () =>{
   initialLoginSate = {
@@ -114,8 +123,17 @@ const App = () =>{
           )
         :
         (
-      <Stack.Navigator initialRouteName="Main" screenOptions={{headerShown:false}}>
-        <Stack.Screen name="Main" component={MainBoard}/>
+      <Stack.Navigator initialRouteName="Main">
+        <Stack.Screen name="Main" component={MainBoard} options={{headerShown:false}}/>
+        <Stack.Screen name="Pending" component={Pending}/>
+        <Stack.Screen name="Waiting" component={Waiting}/>
+        <Stack.Screen name="Delivery" component={Delivery}/>
+        <Stack.Screen name="Success" component={Success}/>
+        <Stack.Screen name="DetailOrder" component={DetailOrder}/>
+        <Stack.Screen name="All" component={AllOrder}/>
+        <Stack.Screen name="AddProduct" component={AddProduct}/>
+        <Stack.Screen name="ProductManage" component={ProductManage}/>
+        <Stack.Screen name="Detail Product" component={DetailProduct}/>
       </Stack.Navigator>)
         }
       </NavigationContainer>

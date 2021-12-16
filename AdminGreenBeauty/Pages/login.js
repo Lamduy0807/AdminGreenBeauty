@@ -88,7 +88,11 @@ const LoginScreen = ({navigation})=>{
             {
                 response.json().then(data=>{
                     //alert("login successfully!")
-                    signIn(data.id, data.tokens);
+                    // console.log(data)
+                    if(data.is_staff == true)
+                        signIn(data.id, data.tokens);
+                    else
+                        alert("Your account did not have permission to login")
 
                 })
             }
@@ -154,7 +158,7 @@ const LoginScreen = ({navigation})=>{
             <View style={styles.Inputcontainer}>
                 <View style={{padding: scale(10)}}>
                     <Text style={{color:'#006C25', fontSize: scale(25)}}>Welcome</Text>
-                    <Text style={{fontSize: scale(15)}}>To GreenBeauty's House</Text>
+                    <Text style={{fontSize: scale(15)}}>To GreenBeauty's House for Admin</Text>
                 </View>
                 <View>
                         <Text style={{color:"#B6C7D1", fontSize:scale(12)}}>Email</Text>

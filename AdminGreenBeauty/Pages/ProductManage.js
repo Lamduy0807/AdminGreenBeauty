@@ -21,13 +21,15 @@ import {
   VirtualizedList
 } from 'react-native';
 import {scale} from 'react-native-size-matters'
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Product from '../Components/ProductComponent';
 const ProductManage = ({navigation, route}) => {
     const [renderData,setRenderData] = useState([]) 
     const [loading, setLoading] = useState(true)
-
+    const [isSearch, setIsSearch] = useState(false)
+    const [searchData, setsearchData] = useState([])
+    const [searchtext, setsearchtext] = useState("")
     useEffect(() => {
         GetData();
     },[])
@@ -64,22 +66,77 @@ const ProductManage = ({navigation, route}) => {
           }}
         />
     );
+    const HandleSearchText = (val) =>{
+        setsearchtext(val)
+        getSearchProduct(val).then(re=>{
+            setsearchData(re)
+        })
+    }
+    async function getSearchProduct(query) {
+        const apiSearchProduct =
+          'http://10.0.2.2:8000/product/?search=' +
+          query +
+          '&ordering=price';
+        if (query != '') {
+          try {
+            let response = await fetch(apiSearchProduct, {method: 'GET'});
+            let responseJson = await response.json();
+            return responseJson;
+          } catch (error) {
+            console.error(`Error is: ${error}`);
+          }
+        }
+      }
     return(
-        <FlatList
-        data={renderData}
-        ItemSeparatorComponent = {ItemSepatator}
-        onRefresh={()=> GetData()}
-        refreshing={loading}
-        renderItem={({item})=>{
-        return(
-            <TouchableOpacity
-           onPress={()=>navigation.navigate("Detail Product",{product: item})}
-            >
-                <Product id={item.id} price={item.price} isActive={item.IsActive} name={item.name} img ={item.imagepresent} isFlashsale={item.IsFlashsale}/>
-            </TouchableOpacity>
-        )
-        }}
-        keyExtractor={(item) => item.id}/>
+        <SafeAreaView>
+            <View>
+                <View style={{justifyContent:"space-between", alignItems:"center",flexDirection:"row",margin: 10, width: Dimensions.get("window").width-30, borderWidth: 0.5, borderRadius: 20, backgroundColor:"white"}}>
+                    <TextInput style={{color:"gray", marginLeft: 5}}
+                    placeholder="Search Here..."
+                    keyboardType={'default'}
+                    onChangeText={(val)=>{HandleSearchText(val)}}></TextInput>
+                    <TouchableOpacity>
+                        <EvilIcons style={{ marginRight: 15}} name ='search' size={20}/>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            {
+                searchtext!=""?
+                <FlatList
+                data={searchData}
+                extraData={searchData}
+                ItemSeparatorComponent = {ItemSepatator}
+                onRefresh={()=> GetData()}
+                refreshing={loading}
+                renderItem={({item})=>{
+                return(
+                    <TouchableOpacity
+                onPress={()=>navigation.navigate("Detail Product",{product: item})}
+                    >
+                        <Product id={item.id} price={item.price} isActive={item.IsActive} name={item.name} img ={item.imagepresent} isFlashsale={item.IsFlashsale}/>
+                    </TouchableOpacity>
+                )
+                }}
+                keyExtractor={(item) => item.id}/>
+                :
+                <FlatList
+                data={renderData}
+                ItemSeparatorComponent = {ItemSepatator}
+                onRefresh={()=> GetData()}
+                refreshing={loading}
+                renderItem={({item})=>{
+                return(
+                    <TouchableOpacity
+                onPress={()=>navigation.navigate("Detail Product",{product: item})}
+                    >
+                        <Product id={item.id} price={item.price} isActive={item.IsActive} name={item.name} img ={item.imagepresent} isFlashsale={item.IsFlashsale}/>
+                    </TouchableOpacity>
+                )
+                }}
+                keyExtractor={(item) => item.id}/>
+            }
+        </SafeAreaView>
+        
     )
 }
 

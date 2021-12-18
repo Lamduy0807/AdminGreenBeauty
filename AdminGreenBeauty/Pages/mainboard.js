@@ -26,8 +26,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Feather from 'react-native-vector-icons/Feather'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import Modal from "react-native-modal";
 const MainBoard = ({navigation}) =>{
+    const { signOut } = React.useContext(AuthContext);
     const [Pending, setPending] = useState(0)
     const [Wait, setWait] = useState(0)
     const [Delivery, setDelivery] = useState(0)
@@ -186,7 +188,7 @@ const MainBoard = ({navigation}) =>{
                     </View>
                     <View>
                         <TouchableOpacity
-                        onPress={()=>{navigation.navigate('All')}}>
+                        onPress={()=>{navigation.navigate('ProductManage')}}>
                             <Text>View All</Text>
                         </TouchableOpacity>
                     </View>
@@ -213,6 +215,46 @@ const MainBoard = ({navigation}) =>{
 
                 </View>
             </View>
+            <View style={{flexDirection:"row", justifyContent:"space-between"}}>
+            <View style={styles.orderstatus1}>
+                <View style={{flexDirection: "row", margin: 10, justifyContent:"space-between"}}>
+                    <View style={{flexDirection: "row"}}>
+                        <AntDesign name='antdesign' size={25} color='#14A445'/>
+                        <Text style={{fontSize: 20, fontWeight:"700", marginLeft: scale(5), color:'#14A445', alignContent:"center"}}>Banner</Text>
+                    </View>
+                    {/* <View>
+                        <TouchableOpacity
+                        onPress={()=>{navigation.navigate('All')}}>
+                            <Text>View All</Text>
+                        </TouchableOpacity>
+                    </View> */}
+                </View>
+
+                <View style={styles.purchased}>
+                    <TouchableOpacity style={{alignItems: 'flex-end', justifyContent:"center",}}
+                onPress={()=>{navigation.navigate('Banner Manage')}}
+                >
+                    <View style={{alignItems: 'center', justifyContent:"center"}}>
+                        <AntDesign name="edit" size={scale(35)} color="#B2A7AA"/>
+                        <Text style={{marginTop: scale(2), fontSize: scale(7), fontWeight: 'bold'}}>Edit Banner</Text>
+                    </View>
+                </TouchableOpacity>
+
+                </View>
+            </View>
+
+            <View style={[styles.orderstatus1, {justifyContent:"center"}]}>
+                    <TouchableOpacity style={{alignItems: 'center', justifyContent:"center", alignContent:"center"}}
+                onPress={()=>{signOut()}}
+                >
+                    <View style={{alignItems: 'center', justifyContent:"center",alignContent:"center"}}>
+                        <AntDesign name="logout" size={scale(35)} color="#B2A7AA"/>
+                        <Text style={{marginTop: scale(2), fontSize: scale(7), fontWeight: 'bold'}}>Đăng xuất</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            </View>
+            
             </ScrollView>    
         </SafeAreaView>
     )
@@ -251,6 +293,21 @@ const styles= StyleSheet.create({
         backgroundColor:"#F28244",
         alignItems:"center",
         bottom: scale(40)
+    },
+    orderstatus1:{
+        flexDirection: "column", 
+        width: widthofscreen/2 -20, 
+        margin: 10, 
+        backgroundColor:"#FFFFFF",
+        borderRadius: scale(2),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 2,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 16,
     },
 })
 export default MainBoard;

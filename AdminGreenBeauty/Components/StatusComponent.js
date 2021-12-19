@@ -29,8 +29,8 @@ const Status =(props)=>{
         <View style={{flexDirection:"row", alignItems:"center", justifyContent:"space-between", backgroundColor:"white"}}>
             <View style={{flexDirection:"column"}}>
                 <Text style={{fontSize: 20, fontWeight:"bold", marginTop: 10, marginLeft: 10, marginBottom: 5, color:'black'}}>#{props.id}</Text>
-                <Text style={{marginLeft: 10, marginBottom: 5 }}>Ngày đặt: {props.date}</Text>
-                <Text style={{marginLeft: 10, marginBottom: 10 }}>Tổng tiền: {props.total} VNĐ</Text>
+                <Text style={{marginLeft: 10, marginBottom: 5, fontWeight:"500" }}>Ngày đặt: {props.date}</Text>
+                <Text style={{marginLeft: 10, marginBottom: 10, fontWeight:"500" }}>Tổng tiền: {props.total} VNĐ</Text>
             </View>
 
             {GetStyle(props.status)}

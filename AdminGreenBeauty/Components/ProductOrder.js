@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {
-    Dimensions,
-    ImageBackground,
-    Image,
+  Dimensions,
+  ImageBackground,
+  Image,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -18,73 +18,74 @@ import {
   TouchableOpacity,
   Button,
   FlatList,
-  VirtualizedList
+  VirtualizedList,
 } from 'react-native';
-import {scale} from 'react-native-size-matters'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import {scale} from 'react-native-size-matters';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const ProductOrder = (props) =>{
+const ProductOrder = props => {
+  const [product, setProduct] = useState({
+    imagepresent: 'http://127.0.0.1:8000/media/logo-uit.png',
+    name: 'loading',
+    price: 'loading',
+  });
+  const imagepresent = 'http://127.0.0.1:8000/media/logo-uit.png';
+  useEffect(() => {
+    const getData = () => {
+      getProductById(props.id).then(result => {
+        setProduct(result);
+      });
+    };
+    // console.log(route.params.order.totalValue)
 
-    const [product, setProduct] = useState({
-        imagepresent: "http://127.0.0.1:8000/media/logo-uit.png",
-        name: "loading",
-        price: "loading"
-    })
-    const imagepresent = "http://127.0.0.1:8000/media/logo-uit.png"
-    useEffect(() => {
-        const getData = () =>{
-            getProductById(props.id).then(result=>{
-                setProduct(result);
-            });
-        }
-        // console.log(route.params.order.totalValue)
-
-        getData();
-    }, [])
-    async function getProductById(id) {
-        const apiGetProductById =
-          'http://10.0.2.2:8000/product/' + id + '/';
-        try {
-          let response = await fetch(apiGetProductById, {
-            method: 'GET',
-          });
-          let responseJson = await response.json();
-          return responseJson;
-        } catch (error) {
-          console.error(`Error is: ${error}`);
-        }
-      }
-    return(
-        <View>
-            <View style={{flexDirection:"row"}}>
-            <Image style = {styles.Image} source={{uri : product.imagepresent.replace("127.0.0.1","10.0.2.2")}}/>
-            <View style={{flexDirection:"column", justifyContent:"space-evenly"}}>
-                <Text style={{margin:10}} ellipsizeMode="tail"
-                numberOfLines= {2}>{product.name}</Text>
-                <View style={{margin:10, flexDirection:"column",}}>
-                  <Text style={{marginLeft: 5}}>x{props.quanlity}</Text>
-                  <Text style={{color:"red", marginLeft:5}}>{product.price}</Text>
-                </View>
-            </View>
+    getData();
+  }, []);
+  async function getProductById(id) {
+    const apiGetProductById = 'http://10.0.2.2:8000/product/' + id + '/';
+    try {
+      let response = await fetch(apiGetProductById, {
+        method: 'GET',
+      });
+      let responseJson = await response.json();
+      return responseJson;
+    } catch (error) {
+      console.error(`Error is: ${error}`);
+    }
+  }
+  return (
+    <View>
+      <View style={{flexDirection: 'row'}}>
+        <Image
+          style={styles.Image}
+          source={{uri: product.imagepresent.replace('127.0.0.1', '10.0.2.2')}}
+        />
+        <View style={{flexDirection: 'column', justifyContent: 'space-evenly'}}>
+          <Text style={{margin: 10}} ellipsizeMode="tail" numberOfLines={2}>
+            {product.name}
+          </Text>
+          <View style={{margin: 10, flexDirection: 'column'}}>
+            <Text style={{marginLeft: 5}}>x{props.quanlity}</Text>
+            <Text style={{color: 'red', marginLeft: 5}}>{product.price}</Text>
           </View>
-          <View style={styles.line}></View>
         </View>
-    )
-
-}
+      </View>
+      <View style={styles.line}></View>
+    </View>
+  );
+};
 const styles = StyleSheet.create({
-    Image:{
-        width: scale(70),
-        height: scale(70),
-        margin: 10,
-      },
-      line:{
-        width: "100%",
-        height: 0.5,
-        backgroundColor:"#000",
-        marginTop: 5
-      },
-})
+  Image: {
+    width: scale(70),
+    height: scale(70),
+    margin: 10,
+  },
+  line: {
+    width: '100%',
+    height: 0.5,
+    backgroundColor: '#000',
+    marginTop: 5,
+  },
+});
 export default ProductOrder;

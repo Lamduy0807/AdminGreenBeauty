@@ -96,7 +96,7 @@ const LoginScreen = ({navigation})=>{
 
                 })
             }
-            else if(response.status==403)
+            else if(response.status==500)
             {
                 
                 alert("Error: Account has not verified yet, please check register mail again"  )
